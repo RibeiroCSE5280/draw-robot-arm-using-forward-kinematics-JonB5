@@ -11,8 +11,7 @@ from unittest.mock import patch
 import cvxopt
 from cvxopt import matrix, printing
 
-#from robot3D_basic_solution import *
-from Test_robo_arm import forward_kinematics
+from robot3D_basic_solution import *
 
 
 
