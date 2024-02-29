@@ -11,7 +11,8 @@ from unittest.mock import patch
 import cvxopt
 from cvxopt import matrix, printing
 
-from robot3D_basic_solution import *
+#from robot3D_basic_solution import *
+from robot3D_basic import forward_kinematics
 
 
 class TestRobotArm(unittest.TestCase):
