@@ -1,0 +1,15 @@
+{
+  "tests": [
+    {
+      "name": "test_forward_kinematics_assignment",
+      "setup": "pip install -r requirements.txt",
+      "run": "python3 -m unittest -v test_unittest.py",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": null
+    }
+  ]
+}
+
