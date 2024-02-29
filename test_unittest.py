@@ -14,7 +14,6 @@ from cvxopt import matrix, printing
 from robot3D_basic_solution import *
 
 
-
 class TestRobotArm(unittest.TestCase):
 	
 	def test_forward_kinematics1(self):
@@ -26,8 +25,7 @@ class TestRobotArm(unittest.TestCase):
 		
 		actual = e
 		expected = np.array([18.47772028, -0.71432837,  0. ])
-		#print("Actual:" , actual)
-		#print("Expected:", expected)
+
 		assert np.allclose(expected, actual)
 
 	def test_forward_kinematics2(self):
