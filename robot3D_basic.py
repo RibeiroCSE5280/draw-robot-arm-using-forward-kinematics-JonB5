@@ -4,6 +4,53 @@
 
 from vedo import *
 
+
+def forward_kinematics(Phi, L1, L2, L3, L4):
+
+    phi1, phi2, phi3, phi4 = Phi
+
+    rad = .4
+
+    # Matrix of Frame 0 (world frame)
+    T_00 = np.array([[1, 0, 0, 3],
+                     [0, 1, 0, 2],
+                     [0, 0, 1, 0],
+                     [0, 0, 0, 1]])
+
+    # Matrix of Frame 1 
+    R_01 = RotationMatrix(phi1, axis_name='z')  # Rotation matrix
+    p1 = np.array([[0], [0], [0.0]])  # Frame's origin
+    t_01 = p1  # Translation vector
+    T_01 = getLocalFrameMatrix(R_01, t_01)  # Matrix of Frame 1 -> Frame 0 (i.e., the world frame)
+
+    # Matrix of Frame 2 
+    R_12 = RotationMatrix(phi2, axis_name='z')  # Rotation matrix
+    p2 = np.array([[L1 + (2 * rad)], [0.0], [0.0]])  # Frame's origin 
+    t_12 = p2  # Translation vector
+    T_12 = getLocalFrameMatrix(R_12, t_12)
+    T_02 = T_00 @ T_01 @ T_12  # Matrix of Frame 2 -> Frame 0 (i.e., the world frame)
+
+    # Matrix of Frame 3 
+    R_23 = RotationMatrix(phi3, axis_name='z')  # Rotation matrix
+    p3 = np.array([[L2 + (2 * rad)], [0.0], [0.0]])  # Frame's origin 
+    t_23 = p3  # Translation vector
+    T_23 = getLocalFrameMatrix(R_23, t_23)
+    T_03 = T_00 @ T_01 @ T_12 @ T_23  # Matrix of Frame 3 -> Frame 0 (i.e., the world frame)
+
+    # Matrix of Frame 4 (end effector)
+    R_34 = RotationMatrix(phi4, axis_name='z')  # Rotation matrix
+    p4 = np.array([[L3 + rad], [0.0], [0.0]])  # Frame's origin 
+    t_34 = p4  # Translation vector
+    T_34 = getLocalFrameMatrix(R_34, t_34)
+    T_04 = T_00 @ T_01 @ T_12 @ T_23 @ T_34  # Matrix of Frame 4 ->Frame 0 (i.e., the world frame)
+
+    # Calculate end-effector coordinates
+    e = T_04[:3, 3]
+
+    return T_01, T_02, T_03, T_04, e
+
+
+
 def RotationMatrix(theta, axis_name):
     """ calculate single rotation of $theta$ matrix around x,y or z
         code from: https://programming-surgeon.com/en/euler-angle-python-en/
